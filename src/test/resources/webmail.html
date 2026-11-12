@@ -1,0 +1,35 @@
+<!doctype html><html><head><title>Inbox fixture</title></head><body>
+<button id="refresh" onclick="loadInbox(1)">Refresh</button>
+<div id="previous" style="display:none"><button onclick="loadInbox(1)">Previous</button></div>
+<span id="page">1</span>
+<div id="next"><button onclick="loadInbox(2)">Next</button></div>
+<div id="nbmail">3 mails</div><div id="message"></div>
+<div id="r_parent" style="display:none">Please complete human verification</div>
+<iframe id="ifinbox" name="ifinbox" state="hidden"></iframe>
+<iframe id="ifmail" name="ifmail"></iframe>
+<script>
+function loadInbox(number) {
+  document.getElementById('refresh').setAttribute('loading', '');
+  document.getElementById('ifinbox').setAttribute('state', 'hidden');
+  document.getElementById('ifinbox').src = '/en/inbox?p=' + number + '&nonce=' + Date.now();
+}
+function loaded(number, hasNext) {
+  document.getElementById('page').textContent = number;
+  document.getElementById('previous').style.display = number > 1 ? '' : 'none';
+  document.getElementById('next').style.display = hasNext ? '' : 'none';
+  document.getElementById('ifinbox').setAttribute('state', 'full');
+  document.getElementById('refresh').removeAttribute('loading');
+}
+function emptyInbox() {
+  document.getElementById('message').textContent = 'This inbox is empty';
+  document.getElementById('nbmail').textContent = '0 mail';
+  document.getElementById('next').style.display = 'none';
+  document.getElementById('refresh').removeAttribute('loading');
+  document.getElementById('ifinbox').src = 'about:blank';
+}
+function openMail(id) {
+  const frame = document.getElementById('ifmail');
+  const target = 'https://yopmail.com/en/mail?id=m' + id;
+  if (frame.src !== target) frame.src = target;
+}
+</script></body></html>

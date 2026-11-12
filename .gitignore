@@ -1,0 +1,7 @@
+/target/
+/.idea/
+/.vscode/
+*.iml
+/.env
+/playwright-report/
+/test-results/
